@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
 
+// Answer
 const answerSchema = new Schema({
     body: {
         type: String,
@@ -14,22 +16,14 @@ const answerSchema = new Schema({
     timestamps: {  createdAt: 'created_at', updatedAt: 'updated_at' }
 });
 
-const commentSchema = new Schema({
-    body: {
+
+
+// Question Model
+const questionSchema = new Schema({
+    title: {
         type: String,
         required: true
     },
-    author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }
-},
-{
-    timestamps: {  createdAt: 'created_at', updatedAt: 'updated_at' }
-});
-
-
-const questionSchema = new Schema({
     body: {
         type: String,
         trim: true
@@ -38,12 +32,18 @@ const questionSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    answers: [ answerSchema ],
-    comments: [ commentSchema ]
+    answers: [ answerSchema ]
 },
 {
     timestamps: {  createdAt: 'created_at', updatedAt: 'updated_at' }
 });
+
+questionSchema.methods.createAnswer = function(body, authorId) {
+    this.answers.push({ body, author: authorId })
+    return this.save();
+}
+questionSchema.plugin(mongoosePaginate);
+
 
 const Question = mongoose.model('Question', questionSchema);
 

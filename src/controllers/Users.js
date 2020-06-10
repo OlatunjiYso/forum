@@ -51,23 +51,53 @@ class UserController {
      * @param {*} res response object
      */
     static async login(req, res) {
-        const { email, password } = req.body;
-        let userRecord = await User.findOne({email});
-        if(!userRecord) {
-            return res.status(401)
-            .json({ msg: 'incorrect email or password'})
+        try {
+            const { email, password } = req.body;
+            let userRecord = await User.findOne({email});
+            if(!userRecord) {
+                return res.status(401)
+                .json({ msg: 'incorrect email or password'})
+            }
+            let validPassword = bcrypt.compareSync(password, userRecord.password);
+            if(!validPassword) {
+                return res.status(401)
+                .json({ msg: 'incorrect email or password'})
+            }
+            const token = jwt.sign({ id: userRecord._id }, jwtKey);
+            return res.status(200)
+            .json({
+                msg: 'You are logged in',
+                token
+            })
+        } catch(err) {
+            return res.status(500)
+            .json({
+                msg: 'an internal server error occured while logging-in user',
+                errMessage: err.message
+            })
         }
-        let validPassword = bcrypt.compareSync(password, userRecord.password);
-        if(!validPassword) {
-            return res.status(401)
-            .json({ msg: 'incorrect email or password'})
+    }
+
+
+    /**
+     * @description a method to search for a users
+     * @param {object} req request object
+     * @param {object} res response object
+     */
+    static async searchUser(req, res) {
+        try {
+        const { keyword } = req.query || 0;
+        const searchRegex = new RegExp(keyword, 'i')
+        const users = await User.find({ $or: [{ name: searchRegex }, { email: searchRegex }] });
+        return res.status(200) .json({users })
+        } catch(err) {
+            return res.status(500)
+            .json({
+                msg: 'an internal server error occured while searching users',
+                errMessage: err.message
+            })
         }
-        const token = jwt.sign({ id: userRecord._id }, jwtKey);
-        return res.status(200)
-        .json({
-            msg: 'You are logged in',
-            token
-        })
+        
     }
 }
 
