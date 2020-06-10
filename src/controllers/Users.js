@@ -20,7 +20,6 @@ class UserController {
      * @param {*} res response object
      */
     static async signup(req, res) {
-
         try {
             const { name, email, password } = req.body;
             const userDocument = (await User.findOne({ email }));
@@ -86,7 +85,7 @@ class UserController {
      */
     static async searchUser(req, res) {
         try {
-        const { keyword } = req.query || 0;
+        const { keyword } = req.query;
         const searchRegex = new RegExp(keyword, 'i')
         const users = await User.find({ $or: [{ name: searchRegex }, { email: searchRegex }] });
         return res.status(200) .json({users })

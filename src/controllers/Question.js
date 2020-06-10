@@ -80,7 +80,6 @@ class QuestionController {
                     errMessage: err.message
                 })
         }
-
     }
 
     /**
@@ -110,7 +109,7 @@ class QuestionController {
 
     static async searchAnswers(req, res) {
         try {
-            const { keyword } = req.query || ' ';
+            const { keyword } = req.query || '';
             const searchRegex = new RegExp (keyword, 'i')
             let answers = await Question.aggregate([
                 { $match: {"answers.body": searchRegex} },
