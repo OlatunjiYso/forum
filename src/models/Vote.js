@@ -9,6 +9,10 @@ const voteSchema = new Schema({
     voter: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    question: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Question'
     }
 });
 

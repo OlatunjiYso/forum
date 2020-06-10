@@ -32,7 +32,11 @@ const questionSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    answers: [ answerSchema ]
+    answers: [ answerSchema ],
+    votes: {
+        type: Number,
+        default: 0
+    }
 },
 {
     timestamps: {  createdAt: 'created_at', updatedAt: 'updated_at' }
