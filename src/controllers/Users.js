@@ -87,7 +87,9 @@ class UserController {
         try {
         const { keyword } = req.query;
         const searchRegex = new RegExp(keyword, 'i')
-        const users = await User.find({ $or: [{ name: searchRegex }, { email: searchRegex }] });
+        const users = await User
+        .find({ $or: [{ name: searchRegex }, { email: searchRegex }] })
+        .select('name email created_at');
         return res.status(200) .json({users })
         } catch(err) {
             return res.status(500)

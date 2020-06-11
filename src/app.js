@@ -14,8 +14,9 @@ app.options('*', cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/users', userHandler);
-app.use('/questions', questionHandler);
+app.use('/forum/apis/v1/users', userHandler);
+app.use('/forum/apis/v1/questions', questionHandler);
+app.use('*', (req,res)=>res.status(404).json({msg:'route not defined'}));
 
 
 export default app;

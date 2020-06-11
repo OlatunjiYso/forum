@@ -12,8 +12,8 @@ class QuestionController {
     static async askQuestion(req, res) {
         try {
             const { title, body } = req.body;
-            const authorId = 1 || req.user.id;
-            const question = await Question.create({ title, body, authorId });
+            const authorId = req.user.id;
+            const question = await Question.create({ title, body, author: authorId });
             return res.status(201)
                 .json({
                     msg: 'question successfully created',
@@ -37,7 +37,7 @@ class QuestionController {
     static async answerQuestion(req, res) {
         try {
             let { body, questionId } = req.body;
-            let authorId = '5ee0c927ea43641981f842dc' || req.user.id;
+            let authorId = req.user.id;
             let question = await Question.findOne({ _id: questionId });
             const updatedDocument = await question.createAnswer(body, authorId);
             return res.status(201).json({
@@ -54,18 +54,19 @@ class QuestionController {
     }
 
     /**
-     * @description - a method topost answers
+     * @description - a method to post answers
      * @param {object} req requset object 
      * @param {object} res response object
      */
     static async viewQuestions(req, res) {
         try {
-            const { limit = 20, page = 1 } = req.query;
+            let { limit = 20, page = 1 } = req.query;
             limit = parseInt(limit);
             page = parseInt(page);
             const questions = await Question.find()
-            .populate('author')
-            .select('title body author answers')
+            .populate('author', '-_id -password -created_at -updated_at -__v')
+            .populate('answers.author', '-_id -password -created_at -updated_at -__v')
+            .select('title body author answers votes')
             .skip((page - 1)*limit)
             .limit(limit)
             return res.status(200)
@@ -89,7 +90,7 @@ class QuestionController {
      */
     static async searchQuestion(req, res) {
         try {
-        const { keyword } = req.query || '';
+        const keyword = req.query.keyword || '';
         const searchRegex = new RegExp(keyword, 'i')
         let questions = await Question.find({ body: searchRegex});
         return res.status(200)
@@ -109,7 +110,7 @@ class QuestionController {
 
     static async searchAnswers(req, res) {
         try {
-            const { keyword } = req.query || '';
+            const  keyword = req.query.keyword || '';
             const searchRegex = new RegExp (keyword, 'i')
             let answers = await Question.aggregate([
                 { $match: {"answers.body": searchRegex} },
@@ -123,7 +124,7 @@ class QuestionController {
             ]);
             return res.status(200)
             .json({
-                msg:`Answees search result for ${keyword}`,
+                msg:`Answers search result for ${keyword}`,
                 answers
             })
         } catch(err) {

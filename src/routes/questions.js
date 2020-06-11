@@ -8,21 +8,21 @@ import voteController from '../controllers/Votes';
 const questionHandler = express.Router();
 
 questionHandler.post(
-    '/ask',
+    '/',
     authenticate,
     validateQuestion,
     questionController.askQuestion
 );
 
 questionHandler.post(
-    '/answer',
+    '/answers',
     authenticate,
     validateAnswer,
     questionController.answerQuestion
 );
 
 questionHandler.post(
-    '/vote',
+    '/votes',
     authenticate,
     validateVote,
     voteController.vote
