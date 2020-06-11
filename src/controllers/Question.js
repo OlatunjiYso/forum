@@ -1,4 +1,5 @@
 import { Question } from "../models";
+import Notifier from '../helpers/Notifier';
 
 
 /**
@@ -40,6 +41,7 @@ class QuestionController {
             let authorId = req.user.id;
             let question = await Question.findOne({ _id: questionId });
             const updatedDocument = await question.createAnswer(body, authorId);
+            await Notifier.notifyQuestionSubscribers(question._id, question.title)
             return res.status(201).json({
                 msg: 'question successfully created',
                 updatedDocument

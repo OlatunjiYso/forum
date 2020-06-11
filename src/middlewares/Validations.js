@@ -114,9 +114,26 @@ export const validateQuestion = (req, res, next) => {
 * @description - validates answers.
 */
 export const validateAnswer = (req, res, next) => {
-    let { title, body, questionId } = req.body;
+    let { body, questionId } = req.body;
     let errors = [];
     if (!body) errors.push('body cannot be empty');
+    if (!questionId) errors.push('questionId cannot be empty')
+    if (errors.length > 0) {
+        return res.status(400)
+            .json({
+                success: false,
+                errors
+            })
+    }
+    next();
+};
+
+/**
+* @description - validates subscription.
+*/
+export const validateSubscription = (req, res, next) => {
+    let { questionId } = req.body;
+    let errors = [];
     if (!questionId) errors.push('questionId cannot be empty')
     if (errors.length > 0) {
         return res.status(400)
