@@ -113,7 +113,7 @@ export const validateQuestion = (req, res, next) => {
 /**
 * @description - validates answers.
 */
-export const validateAnswers = (req, res, next) => {
+export const validateAnswer = (req, res, next) => {
     let { title, body, questionId } = req.body;
     let errors = [];
     if (!body) errors.push('body cannot be empty');
