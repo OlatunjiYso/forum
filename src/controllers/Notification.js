@@ -3,7 +3,7 @@ import { Notification } from '../models';
 /**
  * @description a class for Notification methods
  */
-class Notification {
+class NotificationController {
 
     /**
      * @description a method to create notifications for many users
@@ -29,7 +29,7 @@ class Notification {
     static async fetchUnreadNofitications(req, res) {
         try {
             const userId = req.user.id;
-            const notifications = Notification.find({ user: userId, read: false });
+            const notifications = await Notification.find({ user: userId, read: false });
             return res.status(200)
                 .json({
                     success: true,
@@ -45,10 +45,15 @@ class Notification {
         }
     }
 
-    static markAllNotificationsAsRead(req, res) {
+       /**
+     * @description a method to mark notifications as read
+     * @param {Object} req request object
+     * @param {Object} res response object
+     */
+    static async markAllNotificationsAsRead(req, res) {
         try {
             const userId = req.user.id;
-            await Notification.update({ user: userId }, { read: true });
+            await Notification.updateMany({ user: userId }, { read: true });
             return res.status(200)
             .json({
                 success: true,
@@ -64,4 +69,4 @@ class Notification {
     }
 }
 
-export default Notification;
+export default NotificationController;

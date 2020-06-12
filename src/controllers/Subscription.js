@@ -1,9 +1,9 @@
-import Subscription from '../models';
+import { Subscription } from '../models';
 
 /**
  * @description a class for all subscription methods
  */
-class Subscription {
+class SubscriptionController {
     /**
      * @description subcribes a user to a question. 
      * @param {Object} req request object
@@ -67,4 +67,4 @@ class Subscription {
 }
 
 
-export default Subscription;
+export default SubscriptionController;
