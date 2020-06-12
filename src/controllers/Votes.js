@@ -15,6 +15,7 @@ class VotesController {
             const { type, questionId } = req.body;
             const userId = req.user.id;
             let question = await Question.findOne({ _id: questionId });
+            if(!question) return res.status(404).json({msg: 'found no question with specified id'});
             const votesCount = question.votes;
             const previousVote = await Vote.findOne({ question: questionId, voter: userId });
             if (previousVote) {

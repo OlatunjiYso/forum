@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const environment = process.env.NODE_ENV;
+export const environment = process.env.NODE_ENV;
 
 const dbUrls = {
     development: process.env.DEVELOPMENT_DB,

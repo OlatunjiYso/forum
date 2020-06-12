@@ -21,3 +21,5 @@ process.on('SIGINT', () => {
   console.log('Server successfully shutdown');
   process.exit(0);
 });
+
+export const server = app;

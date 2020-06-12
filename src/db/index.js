@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { dbUrl } from './config';
+import { dbUrl, environment } from './config';
 
 
 const options = {
@@ -12,9 +12,7 @@ const options = {
 const connect = ()=> {
     mongoose.connect(dbUrl, options, (err)=> {
         if(err) { 
-            console.log('An error occured while connecting to db', err)
-        } else {
-            console.log('Database connection was successful')
+            console.log(`An error occured while connecting to db on ${environment} environment`, err)
         }
     });
 }
