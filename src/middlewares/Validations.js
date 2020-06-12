@@ -81,7 +81,7 @@ export const validateVote = (req, res, next) => {
     const types = ['upvote', 'downvote']
     if ( !type || !types.includes(type)) errors.push('invalid type');
     if (!questionId) errors.push('questionId cannot be empty');
-    if (!validId()) errors.push('invalid questionId')
+    if (!validId(questionId)) errors.push('invalid questionId')
     if (errors.length > 0) {
         return res.status(400)
             .json({
@@ -119,7 +119,7 @@ export const validateAnswer = (req, res, next) => {
     let errors = [];
     if (!body) errors.push('body cannot be empty');
     if (!questionId) errors.push('questionId cannot be empty');
-    if (!validId()) errors.push('invalid questionId')
+    if (!validId(questionId)) errors.push('invalid questionId')
     if (errors.length > 0) {
         return res.status(400)
             .json({
@@ -137,7 +137,7 @@ export const validateSubscription = (req, res, next) => {
     let { questionId } = req.body;
     let errors = [];
     if (!questionId) errors.push('questionId cannot be empty');
-    if (!validId()) errors.push('invalid questionId')
+    if (!validId(questionId)) errors.push('invalid questionId')
     if (errors.length > 0) {
         return res.status(400)
             .json({
