@@ -16,8 +16,8 @@ class UserController {
 
     /**
      * @description a method to add anew user
-     * @param {object} req  request object
-     * @param {*} res response object
+     * @param {Object} req  request object
+     * @param {Object} res response object
      */
     static async signup(req, res) {
         try {
@@ -26,6 +26,7 @@ class UserController {
             if (userDocument) {
                 return res.status(403)
                     .json({
+                        success: false,
                         msg: 'this email is taken already'
                     })
             }
@@ -34,46 +35,49 @@ class UserController {
             const newUser = await User.create({ name, email, password: hashedPassword });
             const token = jwt.sign({ id: newUser._id }, jwtKey);
             return res.status(201)
-            .json({ msg: 'you are signed up!', token })
-        } catch(err) {
+                .json({ msg: 'you are signed up!', token, success: true })
+        } catch (err) {
             return res.status(500)
-            .json({
-                msg: 'an internal server error occured while adding user',
-                errMessage: err.message
-            })
+                .json({
+                    success: false,
+                    msg: 'an internal server error occured while adding user',
+                    errMessage: err.message
+                })
         }
     }
 
-     /**
-     * @description a method to login a user
-     * @param {object} req  request object
-     * @param {*} res response object
-     */
+    /**
+    * @description a method to login a user
+    * @param {Object} req  request object
+    * @param {Object} res response object
+    */
     static async login(req, res) {
         try {
             const { email, password } = req.body;
-            let userRecord = await User.findOne({email});
-            if(!userRecord) {
+            let userRecord = await User.findOne({ email });
+            if (!userRecord) {
                 return res.status(401)
-                .json({ msg: 'incorrect email or password'})
+                    .json({  success: false, msg: 'incorrect email or password' })
             }
             let validPassword = bcrypt.compareSync(password, userRecord.password);
-            if(!validPassword) {
+            if (!validPassword) {
                 return res.status(401)
-                .json({ msg: 'incorrect email or password'})
+                    .json({  success: false, msg: 'incorrect email or password' })
             }
             const token = jwt.sign({ id: userRecord._id }, jwtKey);
             return res.status(200)
-            .json({
-                msg: 'You are logged in',
-                token
-            })
-        } catch(err) {
+                .json({
+                    success: true,
+                    msg: 'You are logged in',
+                    token
+                })
+        } catch (err) {
             return res.status(500)
-            .json({
-                msg: 'an internal server error occured while logging-in user',
-                errMessage: err.message
-            })
+                .json({
+                    success: false,
+                    msg: 'an internal server error occured while logging-in user',
+                    errMessage: err.message
+                })
         }
     }
 
@@ -85,20 +89,30 @@ class UserController {
      */
     static async searchUser(req, res) {
         try {
-        const { keyword } = req.query;
-        const searchRegex = new RegExp(keyword, 'i')
-        const users = await User
-        .find({ $or: [{ name: searchRegex }, { email: searchRegex }] })
-        .select('name email created_at');
-        return res.status(200) .json({users })
-        } catch(err) {
+            const { keyword } = req.query;
+            const searchRegex = new RegExp(keyword, 'i')
+            const users = await User
+                .find({ $or: [{ name: searchRegex }, { email: searchRegex }] })
+                .select('name email created_at');
+            if (users.length === 0) {
+                return res.status(404)
+                    .json({
+                        success: 'false',
+                        msg: 'no user found with specified name or email',
+                        users
+                    })
+            }
+            return res.status(200)
+            .json({ success: true, msg: 'user(s) found', users })
+        } catch (err) {
             return res.status(500)
-            .json({
-                msg: 'an internal server error occured while searching users',
-                errMessage: err.message
-            })
+                .json({
+                    success: false,
+                    msg: 'an internal server error occured while searching users',
+                    errMessage: err.message
+                })
         }
-        
+
     }
 }
 

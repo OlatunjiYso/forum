@@ -1,5 +1,5 @@
 import validator from 'validator';
-
+import mongoose from 'mongoose';
 /**
  * @description - checks if email is valid or not.
  */
@@ -80,7 +80,8 @@ export const validateVote = (req, res, next) => {
     let errors = [];
     const types = ['upvote', 'downvote']
     if ( !type || !types.includes(type)) errors.push('invalid type');
-    if (!questionId) errors.push('questionId cannot be empty')
+    if (!questionId) errors.push('questionId cannot be empty');
+    if (!validId()) errors.push('invalid questionId')
     if (errors.length > 0) {
         return res.status(400)
             .json({
@@ -117,7 +118,8 @@ export const validateAnswer = (req, res, next) => {
     let { body, questionId } = req.body;
     let errors = [];
     if (!body) errors.push('body cannot be empty');
-    if (!questionId) errors.push('questionId cannot be empty')
+    if (!questionId) errors.push('questionId cannot be empty');
+    if (!validId()) errors.push('invalid questionId')
     if (errors.length > 0) {
         return res.status(400)
             .json({
@@ -134,7 +136,8 @@ export const validateAnswer = (req, res, next) => {
 export const validateSubscription = (req, res, next) => {
     let { questionId } = req.body;
     let errors = [];
-    if (!questionId) errors.push('questionId cannot be empty')
+    if (!questionId) errors.push('questionId cannot be empty');
+    if (!validId()) errors.push('invalid questionId')
     if (errors.length > 0) {
         return res.status(400)
             .json({
@@ -144,3 +147,28 @@ export const validateSubscription = (req, res, next) => {
     }
     next();
 };
+
+
+/**
+* @description - validates question fetch.
+*/
+export const validateQuestionFetch = (req, res, next) => {
+    let { questionId } = req.params;
+    let errors = [];
+    if (!validId(questionId)) errors.push('invalid questionId');
+    if (errors.length > 0) {
+        return res.status(400)
+            .json({
+                success: false,
+                errors
+            })
+    }
+    next();
+};
+
+
+/**
+ * 
+ * @param {string} id  id to be checked
+ */
+const validId = (id) => mongoose.Types.ObjectId.isValid(id);

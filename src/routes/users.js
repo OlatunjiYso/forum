@@ -7,7 +7,6 @@ const userHandler = express.Router();
 
 userHandler.post('/signup', validateSignup, userController.signup);
 userHandler.post('/login', validateLogin, userController.login);
-userHandler.get('/search/?', userController.searchUser);
 
 
 export default userHandler;

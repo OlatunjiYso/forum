@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { validateQuestion, validateAnswer, validateVote } from '../middlewares/Validations';
+import { validateQuestion, validateAnswer, validateVote, validateQuestionFetch } from '../middlewares/Validations';
 import { authenticate } from '../middlewares/authentication';
 import questionController from '../controllers/Question';
 import voteController from '../controllers/Votes';
@@ -28,9 +28,12 @@ questionHandler.post(
     voteController.vote
 );
 
+questionHandler.get('/:questionId',
+validateQuestionFetch,
+ questionController.viewSingleQuestion
+ );
+
 questionHandler.get('/', questionController.viewQuestions);
-questionHandler.get('/search/questions', questionController.searchQuestion);
-questionHandler.get('/search/answers', questionController.searchAnswers);
 
 
 export default questionHandler;
