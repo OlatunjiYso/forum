@@ -112,6 +112,9 @@ class QuestionController {
             .select('title body author answers votes')
             .skip((page - 1)*limit)
             .limit(limit)
+            if(questions.length === 0) {
+                return res.status(404).json({ success: true, msg:'no questions yet'})
+            }
             return res.status(200)
                 .json({
                     success: true,
