@@ -13,14 +13,15 @@ export const authenticate = (req, res, next) => {
         const token = req.body.token || req.headers.token;
         if (!token) {
             return res.status(401)
-                .json({ message: 'no token!' });
+                .json({ success: false, msg: 'no token!' });
         }
         // check if token is valid
         jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
             if (err) {
                 return res.status(401)
                     .json({
-                        message: 'token Invalid'
+                        success: false,
+                        msg: 'token Invalid'
                     });
             }
             req.user = decoded;

@@ -24,7 +24,7 @@ class UserController {
             const { name, email, password } = req.body;
             const userDocument = (await User.findOne({ email }));
             if (userDocument) {
-                return res.status(403)
+                return res.status(409)
                     .json({
                         success: false,
                         msg: 'this email is taken already'
@@ -35,7 +35,7 @@ class UserController {
             const newUser = await User.create({ name, email, password: hashedPassword });
             const token = jwt.sign({ id: newUser._id }, jwtKey);
             return res.status(201)
-                .json({ msg: 'you are signed up!', token, success: true })
+                .json({ success: true, msg: 'you are signed up!', token })
         } catch (err) {
             return res.status(500)
                 .json({
