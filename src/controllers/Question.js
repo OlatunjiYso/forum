@@ -47,7 +47,7 @@ class QuestionController {
             await Notifier.notifyQuestionSubscribers(question._id, question.title)
             return res.status(201).json({
                 success: true,
-                msg: 'question successfully created',
+                msg: 'answer successfully created',
                 question: updatedDocument
             })
         } catch (err) {

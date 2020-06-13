@@ -472,10 +472,14 @@ export const swaggerDocument = {
               "schema": {
                 "type": "object",
                 "required": [
-                  "body"
+                  "body",
+                  "questionId"
                 ],
                 "properties": {
                   "body": {
+                    "type": "string"
+                  },
+                  "questionId": {
                     "type": "string"
                   }
                 }
