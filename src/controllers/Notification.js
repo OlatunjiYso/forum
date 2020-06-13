@@ -30,6 +30,9 @@ class NotificationController {
         try {
             const userId = req.user.id;
             const notifications = await Notification.find({ user: userId, read: false });
+            if (notifications.length === 0) {
+                return res.status(404).json({ success: false, msg: 'found no unread notifications'})
+            } 
             return res.status(200)
                 .json({
                     success: true,
