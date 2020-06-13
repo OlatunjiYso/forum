@@ -30,10 +30,10 @@ questionHandler.post(
 
 questionHandler.get('/:questionId',
 validateQuestionFetch,
- questionController.viewSingleQuestion
+ questionController.fetchOneQuestion
  );
 
-questionHandler.get('/', questionController.viewQuestions);
+questionHandler.get('/', questionController.fetchQuestions);
 
 
 export default questionHandler;
