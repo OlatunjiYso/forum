@@ -42,12 +42,13 @@ class QuestionController {
             let { body, questionId } = req.body;
             let authorId = req.user.id;
             let question = await Question.findOne({ _id: questionId });
+            if(!question) {return res.status(404).json({success: false, msg: 'no question found for specified id'})}
             const updatedDocument = await question.createAnswer(body, authorId);
             await Notifier.notifyQuestionSubscribers(question._id, question.title)
             return res.status(201).json({
                 success: true,
                 msg: 'question successfully created',
-                updatedDocument
+                question: updatedDocument
             })
         } catch (err) {
             return res.status(500)
@@ -64,7 +65,7 @@ class QuestionController {
      * @param {Object} req request object 
      * @param {Object} res response object
      */
-    static async viewSingleQuestion(req, res) {
+    static async fetchOneQuestion(req, res) {
         const { questionId } = req.params;
         try {
             const question = await Question.findOne({ _id: questionId })
@@ -100,7 +101,7 @@ class QuestionController {
      * @param {Object} req request object 
      * @param {Object} res response object
      */
-    static async viewQuestions(req, res) {
+    static async fetchQuestions(req, res) {
         try {
             let { limit = 20, page = 1 } = req.query;
             limit = parseInt(limit);
@@ -141,8 +142,7 @@ class QuestionController {
             return res.status(404)
             .json({
                 success: false,
-                msg: 'no questions found for specified keyword',
-                questions
+                msg: 'no questions found for specified keyword'
             })
         }
         return res.status(200)
@@ -180,8 +180,7 @@ class QuestionController {
                 return res.status(404)
                 .json({
                     success: false,
-                    msg: 'no answers found for specified keyword',
-                    answers
+                    msg: 'no answers found for specified keyword'
                 })
             }
             return res.status(200)
