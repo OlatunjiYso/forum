@@ -138,7 +138,7 @@ describe('Tests for questions>>>>>>>', function () {
                 done();
             })
         })
-        it('should post a question with valid parameters', function(done) {
+        it('should post an answer with valid parameters', function(done) {
             chai.request(server)
             .post(`${baseUrl}/answers`)
             .set('token', token)
@@ -148,7 +148,7 @@ describe('Tests for questions>>>>>>>', function () {
             })
             .end(function (err, res) {
                 expect(res.status).to.equal(201);
-                expect(res.body.msg).equal('question successfully created');
+                expect(res.body.msg).equal('answer successfully created');
                 expect(res.body).to.have.property('question');
                 done();
             })
