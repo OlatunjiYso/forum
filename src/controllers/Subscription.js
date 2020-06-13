@@ -15,19 +15,22 @@ class SubscriptionController {
         const questionId = req.body.questionId;
         const previousSubscription = await Subscription.findOne({ subscriber: userId, question: questionId });
         if( previousSubscription) {
-            return res.status(403)
+            return res.status(200)
             .json({
+                success: true,
                 msg: 'you are already subcribed to this question'
             })
         }
         await Subscription.create({  subscriber: userId, question: questionId });
         return res.status(201)
         .json({
+            success: true,
             msg: 'you have successfully subcribed to this question'
         })
         } catch(err) {
-            return res.status(200)
+            return res.status(500)
             .json({
+                success: false,
                 msg: 'an internal server error occured while creating subscription',
                 errMessage: err.message
             })
@@ -43,22 +46,25 @@ class SubscriptionController {
     static async cancelQuestionSubscription(req, res) {
         try {
         const userId = req.user.id;
-        const questionId = req.body.questionId;
+        const questionId = req.params.questionId;
         const previousSubscription = await Subscription.findOne({ subscriber: userId, question: questionId });
         if( !previousSubscription) {
-            return res.status(403)
+            return res.status(404)
             .json({
+                success: false,
                 msg: 'you have not subscribed to this question'
             })
         }
         await Subscription.deleteOne ({ subscriber: userId, question: questionId });
         return res.status(200)
         .json({
+            success: true,
             msg: 'you have successfully unsubcribed to this question'
         })
         } catch(err) {
             return res.status(500)
             .json({
+                success: false,
                 msg: 'an internal server error occured while cancelling subscription',
                 errMessage: err.message
             })

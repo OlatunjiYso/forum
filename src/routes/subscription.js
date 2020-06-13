@@ -12,7 +12,7 @@ subscriptionHandler.post(
     subscriptionController.subscribeToQuestion
 );
 subscriptionHandler.delete(
-    '/questions',
+    '/questions/:questionId',
     authenticate,
     validateSubscription,
     subscriptionController.cancelQuestionSubscription
