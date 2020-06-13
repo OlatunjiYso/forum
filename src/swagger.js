@@ -287,7 +287,7 @@ export const swaggerDocument = {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
+                    "msg": {
                       "type": "string"
                     }
                   }
@@ -533,7 +533,7 @@ export const swaggerDocument = {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
+                    "msg": {
                       "type": "string"
                     }
                   }
@@ -671,7 +671,7 @@ export const swaggerDocument = {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
+                    "msg": {
                       "type": "string"
                     }
                   }
@@ -1037,7 +1037,7 @@ export const swaggerDocument = {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
+                    "msg": {
                       "type": "string"
                     }
                   }
@@ -1099,7 +1099,7 @@ export const swaggerDocument = {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
+                    "msg": {
                       "type": "string"
                     }
                   }

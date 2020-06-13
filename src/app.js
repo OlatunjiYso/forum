@@ -25,7 +25,7 @@ app.use('/forum/apis/v1/search', searchHandler);
 app.use('/forum/apis/v1/subscriptions', subscriptionHandler);
 app.use('/forum/apis/v1/notifications', notificationHandler);
 app.use('/forum/apis/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use('*', (req,res)=>res.status(404).json({msg:'route not defined'}));
+app.use('*', (req,res)=>res.status(404).json({msg:'Welcome to forum APIs'}));
 
 
 export default app;
