@@ -149,7 +149,7 @@ describe('Tests for questions>>>>>>>', function () {
             .end(function (err, res) {
                 expect(res.status).to.equal(201);
                 expect(res.body.msg).equal('question successfully created');
-                expect(res.body).to.have.property('updatedDocument');
+                expect(res.body).to.have.property('question');
                 done();
             })
         })

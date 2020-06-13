@@ -52,7 +52,7 @@ it('should ensure that only authenticated users can vote', function(done) {
     })
     .end(function (err, res) {
         expect(res.status).to.equal(401);
-        expect(res.body.message).equal('no token!');
+        expect(res.body.msg).equal('no token!');
         done();
     })
 }) 

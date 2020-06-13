@@ -77,7 +77,6 @@ describe('All test for search endpoints', function () {
             .get(`${baseUrl}/questions/?keyword=jbgfjgb`)
             .end(function (err, res) {
                 expect(res.status).to.equal(404);
-                expect(res.body.questions.length).equal(0);
                 expect(res.body.msg).to.equal('no questions found for specified keyword')
                 done();
             })

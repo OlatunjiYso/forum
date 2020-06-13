@@ -74,7 +74,7 @@ describe('Tests for user signup', function () {
                 password: 'password'
             })
             .end(function (err, res) {
-                expect(res.status).to.equal(403);
+                expect(res.status).to.equal(409);
                 expect(res.body.msg).equal('this email is taken already');
                 done();
             })
