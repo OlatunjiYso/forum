@@ -7,7 +7,8 @@
     "build": "babel src -d dist",
     "start": "node dist/index.js",
     "start:dev": "nodemon src/index.js --exec babel-node",
-    "test": "mocha src/test --require @babel/register --exit"
+    "test": "mocha src/test --require @babel/register --exit",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -31,8 +32,10 @@
     "@babel/register": "^7.10.1",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "coveralls": "^3.1.0",
     "mocha": "^8.0.1",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "nyc": "^15.1.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
