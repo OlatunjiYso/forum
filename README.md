@@ -32,7 +32,8 @@
 5. Mongoose ODM 
 
 #### Testing
-Tests were written with Mocha and Chai Chai-http
+Tests were written with Mocha Chai
+
 To run the the tests, run `npm test`
 
 
