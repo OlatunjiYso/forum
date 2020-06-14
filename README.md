@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/OlatunjiYso/forum.svg?branch=develop)](https://travis-ci.com/OlatunjiYso/forum)
+[![Coverage Status](https://coveralls.io/repos/github/OlatunjiYso/forum/badge.svg?branch=develop)](https://coveralls.io/github/OlatunjiYso/forum?branch=develop)
 
 # forum
 ## A forum for developers
