@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/OlatunjiYso/forum.svg?branch=develop)](https://travis-ci.com/OlatunjiYso/forum)
+
 # forum
 ## A forum for developers
 
